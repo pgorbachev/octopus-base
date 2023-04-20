@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2021.1/project-config.xsd">
+  <name>Octopus Gradle Compile &amp; UT [W/O VCS Root]</name>
+  <settings>
+    <options>
+      <option name="allowExternalStatus" value="true" />
+    </options>
+    <parameters>
+      <param name="CURRENT_COMMIT" value="" />
+      <param name="GRADLE_STANDARD_PARAMETERS" value="-Pversion=%build.number%" spec="text validationMode='any'" />
+      <param name="JAVA_OPTS" value="" />
+      <param name="PROJECT_VERSION" value="" />
+      <param name="WORK_DIR" value="" />
+    </parameters>
+    <build-runners>
+      <runner id="RUNNER_4495" name="Calculate build parameters" type="OctopusCalculateBuildParameters">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_4463" name="Build" type="gradle-runner">
+        <parameters>
+          <param name="jvmArgs"><![CDATA[-Duser.name=%teamcity.agent.jvm.user.name% -Duser.home=%teamcity.agent.jvm.user.home%
+%JAVA_OPTS%]]></param>
+          <param name="org.jfrog.artifactory.selectedDeployableServer.defaultModuleVersionConfiguration" value="GLOBAL" />
+          <param name="target.jdk.home" value="%env.JAVA_HOME%" />
+          <param name="teamcity.build.workingDir" value="%WORK_DIR%" />
+          <param name="teamcity.coverage.emma.include.source" value="true" />
+          <param name="teamcity.coverage.emma.instr.parameters" value="-ix -*Test*" />
+          <param name="teamcity.coverage.idea.includePatterns" value="*" />
+          <param name="teamcity.coverage.jacoco.patterns" value="+:*" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="teamcity.tool.jacoco" value="%teamcity.tool.jacoco.DEFAULT%" />
+          <param name="ui.gradleRunner.additional.gradle.cmd.params"><![CDATA[%GRADLE_STANDARD_PARAMETERS%
+%GRADLE_EXTRA_PARAMETERS%]]></param>
+          <param name="ui.gradleRunner.gradle.stacktrace.enabled" value="true" />
+          <param name="ui.gradleRunner.gradle.tasks.names" value="%GRADLE_TASK%" />
+          <param name="ui.gradleRunner.gradle.wrapper.useWrapper" value="true" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings />
+    <requirements>
+      <exists id="RQ_2007" name="env.DOCKER" />
+      <contains id="RQ_2008" name="env.OS_TYPE" value="CENTOS7x64" />
+    </requirements>
+    <build-triggers>
+      <build-trigger id="TRIGGER_1763" type="vcsTrigger">
+        <parameters>
+          <param name="branchFilter" value="" />
+          <param name="enableQueueOptimization" value="true" />
+          <param name="quietPeriodMode" value="USE_DEFAULT" />
+        </parameters>
+      </build-trigger>
+      <build-trigger id="TRIGGER_1764" type="schedulingTrigger">
+        <parameters>
+          <param name="branchFilter" value="" />
+          <param name="cronExpression_dm" value="*" />
+          <param name="cronExpression_dw" value="?" />
+          <param name="cronExpression_hour" value="*" />
+          <param name="cronExpression_min" value="0" />
+          <param name="cronExpression_month" value="*" />
+          <param name="cronExpression_sec" value="0" />
+          <param name="cronExpression_year" value="*" />
+          <param name="dayOfWeek" value="Sunday" />
+          <param name="enableQueueOptimization" value="true" />
+          <param name="hour" value="10" />
+          <param name="minute" value="0" />
+          <param name="promoteWatchedBuild" value="true" />
+          <param name="revisionRule" value="lastFinished" />
+          <param name="revisionRuleBuildBranch" value="+:&lt;default&gt;" />
+          <param name="schedulingPolicy" value="weekly" />
+          <param name="timezone" value="SERVER" />
+          <param name="triggerBuildIfWatchedBuildChanges" value="" />
+          <param name="triggerBuildWithPendingChangesOnly" value="" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <build-extensions>
+      <extension id="swabra" type="swabra">
+        <parameters>
+          <param name="swabra.enabled" value="swabra.before.build" />
+        </parameters>
+      </extension>
+      <extension id="jetbrains.agent.free.space" type="jetbrains.agent.free.space">
+        <parameters>
+          <param name="free-space-fail-start" value="" />
+          <param name="free-space-work" value="5gb" />
+        </parameters>
+      </extension>
+      <extension id="DockerSupport" type="DockerSupport">
+        <parameters>
+          <param name="login2registry" value="PROJECT_EXT_177" />
+          <param name="loginCheckbox" value="on" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <cleanup />
+  </settings>
+</template>
+

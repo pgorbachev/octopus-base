@@ -9,7 +9,7 @@
         <param name="buildSettings" value="ALWAYS_USE_CURRENT" />
         <param name="credentialsStorageType" value="credentialsJSON" />
         <param name="enabled" value="true" />
-        <param name="rootId" value="RnDProcessesAutomation_Octopus_OctopusBase" />
+        <param name="rootId" value="Octopus_OctopusBase" />
         <param name="showChanges" value="false" />
       </parameters>
     </extension>

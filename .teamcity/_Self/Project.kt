@@ -9,4 +9,8 @@ object Project : Project({
 
     template(OctopusGradleCompileUt)
     template(EmployeeService_OctopusRelease)
+
+    params {
+        param("zenit", "champion")
+    }
 })

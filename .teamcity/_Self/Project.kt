@@ -12,5 +12,6 @@ object Project : Project({
 
     params {
         param("zenit", "champion")
+        param("spartak", "otstoi")
     }
 })
